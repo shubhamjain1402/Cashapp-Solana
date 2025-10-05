@@ -10,7 +10,7 @@ export  const useCashApp = () => {
     const [userAddress, setUserAddress] = useState("11111111111111111111111111111111")
     const [avatar, setAvatar] = useState("")
     const[amount,setAmount]=useState(0);
-
+    const [newTransactionModalOpen, setNewTransactionModalOpen] = useState(false)
     const [receiver, setReceiver] = useState('')
     const [transactionPurpose, setTransactionPurpose] = useState('')
     const {connected,  publicKey, sendTransaction} = useWallet();
@@ -78,12 +78,52 @@ export  const useCashApp = () => {
         const reference=Keypair.generate().publicKey;
 
         const transaction=await makeTransaction(fromWallet,toWallet,bnAmount,reference);
-
+        
         const txnHash=await sendTransaction(transaction,connection);
         console.log("Transaction Hash:",txnHash);
 
         //Create Transaction History in the backend
+        const newID=(transactions.length+1).toString()
+        const newTransaction={
+            id:newID,
+            from:{
+                name:publicKey,
+                handle:publicKey,
+                avatar:true,
+                verified:true
+            },
+            to:{
+                name:receiver,
+                handle:'-',
+                avatar:getAvatarUrl(receiver.toString()),
+                verified:false
+            },
+            description:transactionPurpose,
+            transactionDate:new Date(),
+            status:'Completed',
+            amount:amount,
+            source:'-',
+            identifier:'-'
+        };
+        setNewTransactionModalOpen(false)
+        setTransactions([newTransaction,...transactions]);//Add the new transaction to the old transactions
+        
+    
     }
 
-    return { connected, publicKey ,avatar,userAddress ,doTransaction, amount,setAmount,receiver,setReceiver,transactionPurpose,setTransactionPurpose,transactions,setTransactions};
+    return { connected,
+         publicKey ,
+         avatar,
+         userAddress ,
+         doTransaction, 
+         amount,
+         setAmount,
+         receiver,
+         setReceiver,
+         transactionPurpose,
+         setTransactionPurpose,
+         transactions,
+         setTransactions,
+         setNewTransactionModalOpen,
+         newTransactionModalOpen};
     }

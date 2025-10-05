@@ -14,16 +14,15 @@ import {useCashApp} from '../hooks/cashapp'
 
 const Home = () => {
     const [transactionQRModalOpen, setTransactionQRModalOpen] = useState(false)
-    const [newTransactionModalOpen, setNewTransactionModalOpen] = useState(false)
+    const[qrCode,setQrCode]=useState(false);
     
-    
-    const { connected, publicKey ,avatar ,userAddress,transactions} = useCashApp();
+    const { connected, publicKey ,avatar ,userAddress,transactions,setNewTransactionModalOpen,newTransactionModalOpen} = useCashApp();
 
     return (
         <div className="flex min-h-screen ">
             <header className="flex w-[250px] flex-col bg-[#0bb534] p-12">
                 <Profile setModalOpen={setTransactionQRModalOpen} avatar={avatar} userAddress={userAddress} />
-                <TransactionQRModal modalOpen={transactionQRModalOpen} setModalOpen={setTransactionQRModalOpen} userAddress={userAddress} myKey={publicKey} />
+                <TransactionQRModal modalOpen={transactionQRModalOpen} setModalOpen={setTransactionQRModalOpen} userAddress={userAddress} myKey={publicKey} setQrCode={setQrCode} />
 
                 <NavMenu connected={connected} myKey={publicKey} />
 
