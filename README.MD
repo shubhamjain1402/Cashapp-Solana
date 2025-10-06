@@ -1,36 +1,73 @@
-# cashapp-solana
+# Cashapp-Solana
 
-Cashapp-Solana is a small demo app that demonstrates integrating Solana wallets (Phantom) into a React/Next.js frontend. It provides a minimal UI to connect a Phantom wallet, create and view simple transactions (for demo purposes), and shows how to wire up the Solana wallet adapter ecosystem in a client-side React app.
+[![CI](https://github.com/shubhamjain1402/Cashapp-Solana/actions/workflows/ci.yml/badge.svg)](https://github.com/shubhamjain1402/Cashapp-Solana/actions)
 
-Features
-- Connect to Phantom wallet (via the browser extension)
-- Demonstrates `@solana/wallet-adapter-react` + `@solana/wallet-adapter-react-ui` usage
-- Simple transactions list and UI components to show connected wallet state
+Cashapp-Solana is a focused frontend application that demonstrates integrating Solana wallets and building on-chain payment flows. It uses a client-side Next.js frontend to connect wallets, create transactions, accept QR-payments, and validate transfers on Solana.
+
+## Table of contents
+
+- [Key features](#key-features)
+- [Demo](#demo)
+- [Repository layout](#repository-layout)
+- [Quick start](#quick-start)
+- [Troubleshooting](#common-troubleshooting)
+- [How to extend](#how-to-extend)
+- [Contributing](#contributing)
+
+Key features
+- Wallet connection using Phantom and the `@solana/wallet-adapter` ecosystem
+- Create and send SOL transfers from the connected wallet
+- Generate and accept Solana Pay QR payments and validate incoming transfers
+- Persist transaction history locally with a safe localStorage wrapper
+
+Repository layout
+- `frontend/` — Next.js app and entrypoint
+   - `components/` — UI components (modals, transaction list, QR modal)
+   - `hooks/` — Core application logic (transaction flows, local storage hook)
+   - `functions/` — Small utilities (avatar generator, string helpers)
 
 Prerequisites
 - Node.js 16+ (LTS recommended)
 - Yarn (or npm)
-- Phantom Wallet browser extension installed (or another Solana-compatible injected wallet)
+- A browser with Phantom Wallet extension installed for testing (or another injected Solana wallet)
 
-Installation
-1. Clone the repository (or use the provided code)
-2. From the project root run:
+Install
+1. Clone the repository
+2. Install dependencies for the frontend:
 
-	yarn install
+```powershell
+cd frontend
+yarn install
+```
 
-Running locally
-- Start the development server from the `frontend/` folder (this project uses a Next.js frontend):
+Run (development)
 
-	cd frontend
-	yarn dev
+```powershell
+cd frontend
+yarn dev
+```
 
-Notes & troubleshooting
-- Phantom is a browser extension that injects `window.solana`. Only test wallet connection in a real browser (localhost or over HTTPS). The app will not detect Phantom if you open the page in a non-browser environment.
-- If the wallet is not detected, open the browser console and check for `window.solana` and `window.solana.isPhantom`.
-- If `yarn dev` fails, ensure dependencies are installed and Node.js version matches the project's engines.
+Open http://localhost:3000 in a browser with Phantom installed. Use the header UI to connect a wallet.
+
+Configuration & environment
+- This project is client-first: wallet adapters initialize only in the browser. There are no server-side secrets or keys included.
+- If you need to point to a different Solana cluster (devnet/testnet/mainnet), look for cluster config in the hook that builds transactions and change the network/endpoint accordingly.
+
+Common troubleshooting
+- Wallet not detected: verify Phantom is installed and enabled; check `window.solana` in console.
+- WalletNotSelectedError: ensure a wallet is connected and unlocked before initiating a transaction.
+- `yarn dev` issues after fresh clone: remove `node_modules` and re-run `yarn install`. Verify Node.js version.
+
+How to extend
+- Add unit tests for the `useCashApp` hook (Jest + React Testing Library)
+- Add CI (GitHub Actions) to run lint and build checks on PRs
+- Add E2E tests (Cypress/Playwright) to cover wallet connection and transaction flows
 
 Contributing
-- This repository is a demo; contributions and improvements are welcome. Open issues or PRs with clear descriptions.
+- Issues and pull requests are welcome. Describe the change and provide steps to reproduce bugs.
 
 License
 - MIT
+
+Contact
+- Open an issue if you need help or want a walkthrough of the code.

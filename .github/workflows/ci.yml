@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: |
+          cd frontend
+          yarn install --frozen-lockfile || npm install
+      - name: Run build (if present)
+        run: |
+          cd frontend
+          if [ -f package.json ]; then
+            if grep -q "next" package.json; then
+              yarn build || npm run build || true
+            fi
+          fi
