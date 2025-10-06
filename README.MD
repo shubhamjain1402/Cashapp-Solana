@@ -7,7 +7,6 @@ Cashapp-Solana is a focused frontend application that demonstrates integrating S
 ## Table of contents
 
 - [Key features](#key-features)
-- [Demo](#demo)
 - [Repository layout](#repository-layout)
 - [Quick start](#quick-start)
 - [Troubleshooting](#common-troubleshooting)
@@ -65,9 +64,6 @@ How to extend
 
 Contributing
 - Issues and pull requests are welcome. Describe the change and provide steps to reproduce bugs.
-
-License
-- MIT
 
 Contact
 - Open an issue if you need help or want a walkthrough of the code.
